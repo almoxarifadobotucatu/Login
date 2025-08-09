@@ -193,7 +193,7 @@
 
       const user = users.find(u => u.username === username && u.password === password);
       if (user) {
-        alert('Login bem-sucedido!');
+        window.location.href = "https://pedidoextra.github.io/menu/";
       } else {
         alert('Usuário ou senha incorretos.');
       }
