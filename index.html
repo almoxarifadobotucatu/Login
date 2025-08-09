@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang='pt-BR'>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>almoxarifado</title>
+  <title>Solicitação de Pedido Extra</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
+      --primary-extra-color: #1db954;
+      --danger-extra-color: #ff6b6b;
       --primary-color: #0a66c2;
       --primary-hover-color: #004182;
       --danger-color: #e53e3e;
@@ -33,7 +35,7 @@
       color: var(--text-dark);
     }
 
-    .login-container {
+    .container, .login-container, .change-password-container {
       max-width: 800px;
       width: 100%;
       background-color: var(--background-white);
@@ -44,7 +46,7 @@
       transition: var(--transition-all);
     }
 
-    .login-container:hover {
+    .container:hover, .login-container:hover, .change-password-container:hover {
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
     }
 
@@ -67,6 +69,7 @@
     }
 
     input[type="text"],
+    input[type="number"],
     input[type="password"] {
       width: 100%;
       padding: 14px 18px;
@@ -80,6 +83,7 @@
     }
 
     input[type="text"]:focus,
+    input[type="number"]:focus,
     input[type="password"]:focus {
       outline: none;
       border-color: var(--primary-color);
@@ -102,6 +106,258 @@
       color: var(--text-dark) !important;
     }
 
+    .custom-select {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-select .selected {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      color: var(--text-dark);
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: var(--transition-all);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .custom-select .selected::after {
+      content: '▼';
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      margin-left: 10px;
+    }
+
+    .custom-select .selected:hover,
+    .custom-select .selected:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.3);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .custom-select .options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--background-white);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      box-shadow: var(--shadow-light);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 10;
+      display: none;
+      margin-top: 4px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .custom-select .options .option {
+      padding: 12px 18px;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: var(--transition-all);
+      font-size: 1rem;
+    }
+
+    .custom-select .options .option:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .custom-select .options .option.selected {
+      background-color: rgba(10, 102, 194, 0.2);
+    }
+
+    .setor {
+      margin-top: 40px;
+      padding: 30px;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      background-color: rgba(0, 0, 0, 0.2);
+      position: relative;
+      box-shadow: var(--shadow-light);
+      transition: var(--transition-all);
+    }
+
+    .setor:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    .setor > label {
+      margin-top: 0;
+    }
+
+    .setor-select-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .setor-select-group .custom-select {
+      flex: 1;
+    }
+
+    .setor-select-group .remove-setor-
+    /* Botões estilo Central de Pedidos */
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
+      box-shadow: var(--shadow-light);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .item {
+      margin-top: 20px;
+      padding: 30px;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      background-color: rgba(0, 0, 0, 0.2);
+      position: relative;
+      box-shadow: var(--shadow-light);
+      transition: var(--transition-all);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    .item .item-input-group {
+      flex: 1;
+    }
+
+    .item .item-input-group.item-nome-group {
+      min-width: 300px;
+      flex-grow: 2;
+    }
+
+    .item .item-input-group.item-qtd-group {
+      min-width: 120px;
+      max-width: 150px;
+      flex-grow: 1;
+    }
+
+    .item .item-input-group label {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .item .item-input-group input {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .item .remove-item-
+    /* Botões estilo Central de Pedidos */
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
+      box-shadow: var(--shadow-light);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .Justificativa-group {
+      margin-top: 20px;
+    }
+
+    .Justificativa {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      font-size: 14px;
+      resize: vertical;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .Justificativa:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .Justificativa:placeholder {
+      color: #aaa;
+    }
+
     .buttons {
       margin-top: 50px;
       text-align: center;
@@ -110,8 +366,10 @@
       gap: 20px;
     }
 
+    
+    /* Botões estilo Central de Pedidos */
     button {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-hover-color));
+      background: var(--primary-color);
       color: white;
       padding: 14px 30px;
       border: none;
@@ -119,17 +377,107 @@
       cursor: pointer;
       font-size: 1rem;
       font-weight: 600;
-      transition: var(--transition-all);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
       box-shadow: var(--shadow-light);
     }
 
     button:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .remove-
+    /* Botões estilo Central de Pedidos */
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
+      box-shadow: var(--shadow-light);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .remove-button:hover {
+      background: linear-gradient(135deg, var(--danger-hover-color), var(--danger-color));
+    }
+
+    .remove-setor-button:hover {
+      transform: scale(1.05);
+    }
+
+    .item-buttons {
+      margin-top: 25px;
+      text-align: right;
+    }
+
+    .setor, .item {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hidden {
+      display: none;
     }
 
     @media (max-width: 768px) {
-      .login-container {
+      .container, .login-container, .change-password-container {
         margin: 20px;
         padding: 30px;
       }
@@ -137,25 +485,105 @@
         flex-direction: column;
         gap: 15px;
       }
+      .setor-select-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .setor-select-group .remove-setor-
+    /* Botões estilo Central de Pedidos */
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
+      box-shadow: var(--shadow-light);
     }
 
-    footer {
-      position: fixed;
-      bottom: 8px;
-      right: 12px;
-      font-size: 9px;
-      color: #888888;
-      background-color: transparent;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      opacity: 0.75;
-      user-select: none;
-      text-shadow: 0 0 1px rgba(0,0,0,0.1);
-      letter-spacing: 0.02em;
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+      .item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .item .item-input-group {
+        min-width: unset;
+        max-width: 100%;
+      }
+      .item .remove-item-
+    /* Botões estilo Central de Pedidos */
+    button {
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.4s ease-in-out;
+      box-shadow: var(--shadow-light);
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(270deg, var(--primary-color), var(--primary-hover-color), var(--primary-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    .remove-button {
+      background: var(--danger-color);
+    }
+
+    .remove-button:hover {
+      background: linear-gradient(270deg, var(--danger-color), var(--danger-hover-color), var(--danger-extra-color));
+      background-size: 600% 600%;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     }
   </style>
 </head>
-<body oncontextmenu="return false;">
-  <div class="login-container" id="loginContainer">
+<body>
+<div class="login-container" id="loginContainer">
     <h2>Login</h2>
     <form id="loginForm">
       <label for="username">Usuário:</label>
@@ -165,55 +593,18 @@
       <div class="buttons">
         <button type="submit">Entrar</button>
       </div>
-    </form>
-  </div>
 
-  <footer>
-    © 2025 Todos os direitos reservados.
-  </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.querySelector("form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            window.location.href = "https://almoxarifadobotucatu.github.io/Central-de-Pedidos/";
+        });
+    }
+});
+</script>
 
-  <script>
-    // Initialize users from localStorage or use default
-    let users = JSON.parse(localStorage.getItem('users')) || [
-      { username: "sms6786", password: "Master1@" },
-      { username: "admin", password: "master@" }
-    ];
-    // Ensure all usernames are lowercase
-    users = users.map(user => ({
-      username: user.username.toLowerCase(),
-      password: user.password
-    }));
-    localStorage.setItem('users', JSON.stringify(users));
-
-    // Handle login form submission
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value.trim().toLowerCase();
-      const password = document.getElementById('password').value.trim();
-
-      const user = users.find(u => u.username === username && u.password === password);
-      if (user) {
-        window.location.href = "https://almoxarifadobotucatu.github.io/Central-de-Pedidos/";
-      } else {
-        alert('Usuário ou senha incorretos.');
-      }
-    });
-
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-      return false;
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
-        e.preventDefault();
-        return false;
-      }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-        e.preventDefault();
-        alert("Salvar página está desativado.");
-      }
-    });
-  </script>
 </body>
 </html>
