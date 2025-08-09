@@ -595,16 +595,6 @@
       </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const loginForm = document.querySelector("form");
-    if (loginForm) {
-        loginForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            window.location.href = "https://almoxarifadobotucatu.github.io/Central-de-Pedidos/";
-        });
-    }
-});
-</script>
 <footer>
   <p>© <span id="ano"></span>. Todos os direitos reservados.</p>
 </footer>
@@ -612,13 +602,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <style>
   footer {
     position: fixed;
-    bottom: 2px;
-    right: 5px;
-    font-size: 0.6rem;
+    bottom: 0;
+    right: 0;
+    font-size: 0.5rem; /* bem pequeno */
     color: #777;
     font-family: Arial, sans-serif;
-    opacity: 0.5;
+    opacity: 0.4; /* mais discreto */
     pointer-events: none;
+    margin: 2px;
   }
 </style>
 
