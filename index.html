@@ -610,16 +610,27 @@ document.addEventListener("DOMContentLoaded", function() {
 </footer>
 
 <style>
+<footer>
+  <p>© <span id="ano"></span>. Todos os direitos reservados.</p>
+</footer>
+
+<style>
   footer {
     position: fixed;
-    bottom: 5px;
-    right: 10px;
-    font-size: 0.7rem;
+    bottom: 2px;
+    right: 5px;
+    font-size: 0.6rem;
     color: #777;
     font-family: Arial, sans-serif;
-    opacity: 0.6;
-    pointer-events: none; /* evita clique acidental */
+    opacity: 0.5;
+    pointer-events: none;
   }
+</style>
+
+<script>
+  document.getElementById('ano').textContent = new Date().getFullYear();
+</script>
+
 </style>
 
 </body>
